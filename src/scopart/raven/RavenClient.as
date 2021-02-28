@@ -44,7 +44,7 @@ package scopart.raven
 			_sender = new RavenMessageSender(_config, errorCallback);
 		}
 
-		/*
+		/**
 		 * set tags for the next capture
 		 */
 		public function setTags(tags:Object=null):void
@@ -52,7 +52,7 @@ package scopart.raven
 			_tags = tags;
 		}
 
-        /*
+        /**
 		 * set extras for the next capture
 		 */
         public function setExtras(extras:Object=null):void
@@ -60,7 +60,7 @@ package scopart.raven
             _extras = extras;
         }
 
-        /*
+        /**
          * set user info (id, username, email, ip_address)
          */
         public function setUserInfos(user:Object=null):void
