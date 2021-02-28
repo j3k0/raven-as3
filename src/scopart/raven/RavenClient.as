@@ -153,7 +153,11 @@ package scopart.raven
 		private function buildException(error : Error, message : String) : Object
 		{
 			var object : Object = new Object();
-			object['type'] = RavenUtils.getClassName(error);
+			var type : String = RavenUtils.getClassName(error);
+			if (type === 'Error' && error.message[0] === '[') {
+				type = error.message.slice(1).split(']')[0];
+			}
+			object['type'] = type;
 			object['value'] = error.message ? error.message : message;
 			object['module'] = RavenUtils.getModuleName(error);
 			return object;
