@@ -24,6 +24,7 @@ package scopart.raven
 		private var _tags : Object; // used for injecting tags before request is made
         private var _extras : Object; // used for injecting extras before request is made
         private var _user : Object; // used for injecting user data before request is made
+		private var _request : Object;
 		
 		public static const DEBUG : uint = 10;
 		public static const INFO : uint = 20;
@@ -62,11 +63,22 @@ package scopart.raven
 
         /**
          * set user info (id, username, email, ip_address)
+		 * 
+		 * @see https://develop.sentry.dev/sdk/event-payloads/user/
          */
         public function setUserInfos(user:Object=null):void
         {
             _user = user;
         }
+
+		/**
+		 * set request info for the next message
+		 * 
+		 * @see https://develop.sentry.dev/sdk/event-payloads/request/
+		 */
+		public function setRequestInfo(request:Object=null):void{
+			_request = request;
+		}
 		
 		/**
 		 * Log a message to sentry
@@ -78,6 +90,7 @@ package scopart.raven
 			_tags = { }; // reset the provided tags after send
             _extras = { }; // reset the provided extras after send
             _user = { }; // reset the provided user data after send
+			_request = { };
 			_sender.send(messageBody, now.time);
 			return _lastID;
 		}
@@ -91,7 +104,7 @@ package scopart.raven
 			var messageBody : String = buildMessage(message || error.message, RavenUtils.formatTimestamp(now), logger, level, culprit, error);
 			_tags = { }; // reset the provided tags before send
             _extras = { }; // reset the provided extras after send
-            _user = { }; // reset the provided user data after send
+            _user = { }; // reset the provided user data after sendo
 			_sender.send(messageBody, now.time);
 			return _lastID;
 		}
@@ -141,6 +154,7 @@ package scopart.raven
 			object['logger'] = logger;
 			object['tags'] = _tags;
             object['extra'] = _extras;
+			object['request'] = _request;
 			
 			var encoder : JSONEncoder = new JSONEncoder(object);
 			
