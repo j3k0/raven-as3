@@ -105,6 +105,7 @@ package scopart.raven
 			_tags = { }; // reset the provided tags before send
             _extras = { }; // reset the provided extras after send
             _user = { }; // reset the provided user data after sendo
+			_request = { };
 			_sender.send(messageBody, now.time);
 			return _lastID;
 		}
