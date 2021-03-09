@@ -193,7 +193,16 @@ package scopart.raven
 		 */
 		private function determineCulprit(error : Error) : String
 		{
-			return error.getStackTrace().split('\n')[0];
+			var elements : Array = error.getStackTrace().split('\n');
+			if (elements.length > 1) return elements[0] + ' in ' shortCulprit(elements[1]);
+			if (elements.length > 0) return elements[0];
+			return "";
+		}
+
+		private function shortCulprit(stackFunction : String) : String {
+			var fnName : String = stackFunction.split('(')[0];
+			if (fnName && fnName.indexOf("/") >= 0) return fnName.split('/')[1];
+			return fnName;
 		}
 	}
 }
